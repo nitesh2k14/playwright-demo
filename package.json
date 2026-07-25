@@ -1,15 +1,38 @@
 {
   "name": "playwright-demo",
   "version": "1.0.0",
-  "description": "",
+  "description": "Playwright E2E testing demo against TodoMVC React application",
   "main": "index.js",
-  "scripts": {},
-  "keywords": [],
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "install:browsers": "playwright install",
+    "install:deps": "playwright install-deps"
+  },
+  "keywords": [
+    "playwright",
+    "e2e",
+    "testing",
+    "todomvc"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.62.0",
     "@types/node": "^26.1.1"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitesh2k14/playwright-demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nitesh2k14/playwright-demo/issues"
+  },
+  "homepage": "https://github.com/nitesh2k14/playwright-demo#readme"
 }

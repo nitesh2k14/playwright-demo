@@ -6,9 +6,10 @@ import { TodoPage } from '../pages/todo-page';
  * Tests cover:
  * 1. Adding a todo
  * 2. Completing a todo
- * 3. Filtering todos (All, Active, Completed)
- * 4. Deleting a todo
- * 5. Clearing completed todos
+ * 3. Editing a todo
+ * 4. Filtering todos (All, Active, Completed)
+ * 5. Deleting a todo
+ * 6. Clearing completed todos
  */
 
 test.describe('TodoMVC React - Core Functionality', () => {
@@ -91,6 +92,39 @@ test.describe('TodoMVC React - Core Functionality', () => {
         await todoPage.expectTodoCompleted(todo, false);
       }
       await todoPage.expectActiveCount(4);
+    });
+  });
+
+  test.describe('Edit Todo', () => {
+    test.beforeEach(async () => {
+      await todoPage.addTodos(['Todo to edit', 'Another todo']);
+    });
+
+    test('should edit todo text on double click and Enter', async () => {
+      await todoPage.editTodo('Todo to edit', 'Edited todo text');
+      await todoPage.expectTodoVisible('Edited todo text');
+      await todoPage.expectTodoVisible('Todo to edit', false);
+    });
+
+    test('should trim entered text when editing', async () => {
+      await todoPage.editTodo('Todo to edit', '   Trimmed edit   ');
+      await todoPage.expectTodoVisible('Trimmed edit');
+    });
+
+    test('should remove todo if edited text is empty', async () => {
+      await todoPage.editTodo('Todo to edit', '');
+      await todoPage.expectTodoVisible('Todo to edit', false);
+      await todoPage.expectActiveCount(1);
+    });
+
+    test('should cancel edit on Escape key press', async () => {
+      const todoItem = todoPage.todoItems.filter({ hasText: 'Todo to edit' });
+      await todoItem.locator('label').dblclick();
+      const editInput = todoItem.locator('.edit');
+      await editInput.fill('Changed text');
+      await editInput.press('Escape');
+      await todoPage.expectTodoVisible('Todo to edit');
+      await todoPage.expectTodoVisible('Changed text', false);
     });
   });
 
